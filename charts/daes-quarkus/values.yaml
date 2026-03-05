@@ -33,7 +33,7 @@ hpa:
 image:
 
   # Container image repository.
-  repository: ghcr.io/danielgomes/daes-quarkus
+  repository: ghcr.io/danieldggomes/daes-quarkus
 
   # Image tag (use fixed tag in production).
   tag: main
@@ -337,7 +337,7 @@ postgres:
   enabled: true
 
   # PostgreSQL image (pin version in production).
-  image: postgres:16
+  image: registry.redhat.io/rhel9/postgresql-16:9.7
 
   # Image pull policy.
   pullPolicy: Always
