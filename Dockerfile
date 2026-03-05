@@ -10,7 +10,7 @@
 # docker run -i --rm -p 8080:8080 daes-quarkus:native
 ###
 ARG BUILDER_IMAGE=quay.io/quarkus/ubi9-quarkus-mandrel-builder-image:jdk-21
-ARG RUNTIME_IMAGE=registry.access.redhat.com/quarkus/ubi9-quarkus-micro-image:2.0
+ARG RUNTIME_IMAGE=quay.io/quarkus/ubi9-quarkus-micro-image:2.0
 
 FROM ${BUILDER_IMAGE} AS build
 WORKDIR /code
