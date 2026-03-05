@@ -355,8 +355,8 @@ postgres:
   # Database bootstrap configuration.
   auth:
     database: previdencia
-    username: postgres
-    password: postgres
+    username: daes
+    password: daes
 
   # Security context for PostgreSQL container.
   # OpenShift may override via SCC.

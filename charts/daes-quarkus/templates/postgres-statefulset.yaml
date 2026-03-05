@@ -72,7 +72,7 @@ spec:
             capabilities:
               drop:
               - ALL
-            readOnlyRootFilesystem: false
+            readOnlyRootFilesystem: true
   volumeClaimTemplates:
     - metadata:
         name: postgres-data
