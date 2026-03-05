@@ -1,0 +1,15 @@
+*
+
+# Prebuilt artifact paths (single-stage Dockerfiles)
+!target/*-runner
+!target/*-runner.jar
+!target/lib/*
+!target/quarkus-app/*
+
+# Source + Maven wrapper paths (multi-stage Dockerfiles)
+!.mvn/
+!.mvn/**
+!mvnw
+!pom.xml
+!src/
+!src/**
