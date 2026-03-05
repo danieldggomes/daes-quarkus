@@ -1,0 +1,84 @@
+{{- if .Values.postgres.enabled }}
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "app.name" . }}-postgres
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "app.labels" . | nindent 4 }}
+spec:
+  serviceName: {{ .Values.postgres.serviceName }}
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ include "app.name" . }}-postgres
+  template:
+    metadata:
+      labels:
+        app: {{ include "app.name" . }}-postgres
+    spec:
+      serviceAccountName: {{ include "app.name" . }}-sa
+      automountServiceAccountToken: false
+      {{- if .Values.postgres.pullSecret }}
+      imagePullSecrets:
+        - name: {{ .Values.postgres.pullSecret }}
+      {{- end }}
+      securityContext:
+        runAsNonRoot: true
+      {{- if not .Values.securityContext.openshift }}
+        {{- if .Values.postgres.securityContext.runAsUser }}
+        runAsUser: {{ .Values.postgres.securityContext.runAsUser }}
+        {{- end }}
+        {{- if .Values.postgres.securityContext.runAsGroup }}
+        runAsGroup: {{ .Values.postgres.securityContext.runAsGroup }}
+        {{- end }}
+        {{- if .Values.postgres.securityContext.fsGroup }}
+        fsGroup: {{ .Values.postgres.securityContext.fsGroup }}
+        {{- end }}
+      {{- end }}
+      containers:
+        - name: postgres
+          image: {{ .Values.postgres.image }}
+          imagePullPolicy: {{ .Values.postgres.pullPolicy }}
+          env:
+            - name: POSTGRES_DB
+              value: {{ .Values.postgres.auth.database | quote }}
+            - name: POSTGRES_USER
+              value: {{ .Values.postgres.auth.username | quote }}
+            - name: POSTGRES_PASSWORD
+              value: {{ .Values.postgres.auth.password | quote }}
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - name: postgres-data
+              mountPath: /var/lib/postgresql/data
+          readinessProbe:
+            exec:
+              command: ["sh", "-c", "pg_isready -U $POSTGRES_USER -d $POSTGRES_DB"]
+            initialDelaySeconds: 10
+          livenessProbe:
+            exec:
+              command: ["sh", "-c", "pg_isready -U $POSTGRES_USER -d $POSTGRES_DB"]
+            initialDelaySeconds: 30
+          resources:
+            requests:
+              cpu: {{ .Values.postgres.requests.cpu }}
+              memory: {{ .Values.postgres.requests.memory }}
+            limits:
+              cpu: {{ .Values.postgres.limits.cpu }}
+              memory: {{ .Values.postgres.limits.memory }}
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: false
+  volumeClaimTemplates:
+    - metadata:
+        name: postgres-data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: {{ .Values.postgres.storage }}
+{{- end }}
