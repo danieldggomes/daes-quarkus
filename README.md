@@ -1,4 +1,4 @@
-# demo-crud
+# Daes Quarkus
 
 ## Uso do projeto
 
