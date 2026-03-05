@@ -42,18 +42,25 @@ spec:
           imagePullPolicy: {{ .Values.postgres.pullPolicy }}
           env:
             - name: POSTGRESQL_DATABASE
-              value: {{ .Values.postgres.auth.database | quote }}
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "app.name" . }}-config
+                  key: POSTGRESQL_DATABASE        
             - name: POSTGRESQL_USER
-              value: {{ .Values.postgres.auth.username | quote }}
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "app.name" . }}-config
+                  key: QUARKUS_DATASOURCE_USERNAME  
             - name: POSTGRESQL_PASSWORD
-              value: {{ .Values.postgres.auth.password | quote }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "app.name" . }}-secret
+                  key: QUARKUS_DATASOURCE_PASSWORD 
           ports:
             - containerPort: 5432
           volumeMounts:
             - name: postgres-data
-              mountPath: /var/lib/pgsql/data
-            - name: postgres-tmp
-              mountPath: /var/lib/pgsql              
+              mountPath: /var/lib/pgsql/data            
           readinessProbe:
             exec:
               command: ["sh", "-c", "pg_isready -U $POSTGRESQL_USER -d $POSTGRESQL_DATABASE"]
@@ -74,10 +81,7 @@ spec:
             capabilities:
               drop:
               - ALL
-            readOnlyRootFilesystem: {{ .Values.securityContext.readOnlyRootFilesystem }}
-      volumes:
-        - name: postgres-tmp
-          emptyDir: {}            
+            readOnlyRootFilesystem: false           
   volumeClaimTemplates:
     - metadata:
         name: postgres-data

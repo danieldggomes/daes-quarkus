@@ -1,3 +1,4 @@
+{{- if .Values.postgres.enabled }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -6,11 +7,10 @@ metadata:
   labels:
     {{- include "app.labels" . | nindent 4 }}  
 data:
-{{- if .Values.postgres.enabled }}
+  POSTGRESQL_DATABASE: {{ .Values.postgres.auth.database | quote }}
   QUARKUS_DATASOURCE_USERNAME: {{ .Values.postgres.auth.username | quote }}
-  QUARKUS_DATASOURCE_PASSWORD: {{ .Values.postgres.auth.password | quote }}
-  QUARKUS_DATASOURCE_JDBC_URL: {{ printf "jdbc:postgresql://%s:5432/%s" .Values.postgres.serviceName .Values.postgres.auth.database | quote }}
-{{- end }}
+  QUARKUS_DATASOURCE_JDBC_URL: {{ printf "jdbc:postgresql://%s:%s/%s" .Values.postgres.serviceName .Values.postgres.servicePort .Values.postgres.auth.database | quote }}
 {{- range $key, $value := .Values.config }}
   {{ $key }}: {{ $value | toString | quote }}
+{{- end }}
 {{- end }}

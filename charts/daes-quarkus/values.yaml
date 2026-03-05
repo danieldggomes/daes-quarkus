@@ -347,6 +347,9 @@ postgres:
 
   # Service name used by the application JDBC URL.
   serviceName: db
+  
+# Service port used by the application JDBC URL.
+  servicePort: 5432
 
   # Persistent storage size for PostgreSQL PVC.
   # Ignored if persistence template not implemented.

@@ -42,9 +42,13 @@ spec:
           {{- end }}
           ports:
             - containerPort: {{ .Values.service.targetPort }}
+          {{- if .Values.postgres.enabled }}
           envFrom:
             - configMapRef:
                 name: {{ include "app.name" . }}-config
+            - secretRef:
+                name: {{ include "app.name" . }}-secret
+          {{- end }}
           volumeMounts:
             - name: tmp
               mountPath: /tmp
