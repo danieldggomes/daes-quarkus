@@ -7,12 +7,15 @@ on:
     tags: [ 'v*.*.*' ]
   pull_request:
     branches: [ "main" ]
+  workflow_dispatch:
 
 env:
   # Use docker.io for Docker Hub if empty
   REGISTRY: ghcr.io
   # github.repository as <account>/<repo>
   IMAGE_NAME: ${{ github.repository }}
+  CHART_NAME: daes-quarkus
+  CHART_PATH: charts/daes-quarkus
 
 
 jobs:
@@ -33,10 +36,10 @@ jobs:
       - name: Chart | Push
         uses: appany/helm-oci-chart-releaser@v0.5.0
         with:
-          name: ${{ github.repository }}
+          name: ${{ env.CHART_NAME }}
           repository: ${{ github.actor }}
           tag: 1.0.0
-          path: charts/${{ github.repository }}
+          path: ${{ env.CHART_PATH }}
           registry: ${{ env.REGISTRY }}
           registry_username: ${{ github.actor }}
           registry_password: ${{ secrets.GITHUB_TOKEN }}
@@ -50,8 +53,8 @@ jobs:
       - name: Package Helm Chart
         run: |
           mkdir -p .helm-repo
-          helm dependency update charts/${{ github.repository }}
-          helm package charts/${{ github.repository }} -d .helm-repo
+          helm dependency update "${CHART_PATH}"
+          helm package "${CHART_PATH}" -d .helm-repo
 
       - name: Generate Helm index.yaml
         run: |
