@@ -74,7 +74,7 @@ spec:
             capabilities:
               drop:
               - ALL
-            readOnlyRootFilesystem: { .Values.securityContext.readOnlyRootFilesystem }
+            readOnlyRootFilesystem: {{ .Values.securityContext.readOnlyRootFilesystem }}
       volumes:
         - name: postgres-tmp
           emptyDir: {}            
