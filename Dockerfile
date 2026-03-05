@@ -1,4 +1,4 @@
-#### TESTE
+#### TESTE DANIEL
 # Multi-stage Dockerfile (native):
 # - Build native runner with Maven in a Mandrel builder image
 # - Run using Red Hat Quarkus UBI9 micro image
