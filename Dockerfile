@@ -15,6 +15,9 @@ ARG RUNTIME_IMAGE=quay.io/quarkus/ubi9-quarkus-micro-image:2.0
 FROM ${BUILDER_IMAGE} AS build
 WORKDIR /code
 
+# Mandrel builder image does not ship Maven by default.
+RUN microdnf install -y maven && microdnf clean all
+
 # Copy sources and build native executable.
 COPY pom.xml ./
 COPY src ./src
