@@ -45,11 +45,9 @@ spec:
           envFrom:
             - configMapRef:
                 name: {{ include "app.name" . }}-config
-          {{- if .Values.securityContext.readOnlyRootFilesystem }}
           volumeMounts:
             - name: tmp
               mountPath: /tmp
-          {{- end }}
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:
@@ -70,8 +68,6 @@ spec:
             limits:
               cpu: {{ .Values.limits.cpu }}
               memory: {{ .Values.limits.memory }}
-      {{- if .Values.securityContext.readOnlyRootFilesystem }}
       volumes:
         - name: tmp
           emptyDir: {}
-      {{- end }}
