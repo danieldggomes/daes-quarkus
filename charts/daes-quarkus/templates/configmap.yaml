@@ -9,7 +9,7 @@ metadata:
 data:
   POSTGRESQL_DATABASE: {{ .Values.postgres.auth.database | quote }}
   QUARKUS_DATASOURCE_USERNAME: {{ .Values.postgres.auth.username | quote }}
-  QUARKUS_DATASOURCE_JDBC_URL: {{ printf "jdbc:postgresql://%s:%d/%s" .Values.postgres.serviceName .Values.postgres.servicePort .Values.postgres.auth.database | quote }}
+  QUARKUS_DATASOURCE_JDBC_URL: {{ printf "jdbc:postgresql://%s:%v/%s" .Values.postgres.serviceName .Values.postgres.servicePort .Values.postgres.auth.database | quote }}
 {{- range $key, $value := .Values.config }}
   {{ $key }}: {{ $value | toString | quote }}
 {{- end }}
