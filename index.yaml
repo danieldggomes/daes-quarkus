@@ -3,12 +3,12 @@ entries:
   daes-quarkus:
   - apiVersion: v2
     appVersion: 1.0.0
-    created: "2026-03-05T18:33:53.339498358Z"
+    created: "2026-03-05T19:10:37.20739183Z"
     description: daes-quarkus application
-    digest: 1bf5114868d581dbb5239618233c95c3a0620fff8cf080d02e104e3db9d9ac5c
+    digest: 71717fb367d5cffe819ba0b00e1e475f4493e81db53fd3ca9070466d7647309f
     name: daes-quarkus
     type: application
     urls:
     - https://danieldggomes.github.io/daes-quarkus/daes-quarkus-1.0.0.tgz
     version: 1.0.0
-generated: "2026-03-05T18:33:53.338662887Z"
+generated: "2026-03-05T19:10:37.206520471Z"
