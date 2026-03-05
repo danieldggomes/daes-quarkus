@@ -16,7 +16,9 @@ FROM ${BUILDER_IMAGE} AS build
 WORKDIR /code
 
 # Mandrel builder image does not ship Maven by default.
+USER root
 RUN microdnf install -y maven && microdnf clean all
+USER 1001
 
 # Copy sources and build native executable.
 COPY pom.xml ./
