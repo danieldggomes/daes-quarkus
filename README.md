@@ -629,3 +629,4 @@ quarkus.smallrye-openapi.path=/openapi
   - `src/main/resources/META-INF/resources/redoc.html`
   - `src/main/resources/META-INF/resources/redoc.standalone.js`
 
+Teste
