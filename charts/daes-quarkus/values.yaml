@@ -4,7 +4,7 @@
 
 # Number of pod replicas created by default.
 # Ignored if HPA is enabled.
-replicaCount: 2
+replicaCount: 1
 
 # ------------------------------------------------------------
 # Horizontal Pod Autoscaler (HPA)
@@ -16,7 +16,7 @@ hpa:
 
   # Minimum number of replicas when HPA is active.
   # Should usually match replicaCount.
-  minReplicas: 2
+  minReplicas: 1
 
   # Maximum number of replicas allowed by autoscaling.
   maxReplicas: 6
